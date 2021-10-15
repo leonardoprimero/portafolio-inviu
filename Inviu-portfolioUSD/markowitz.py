@@ -41,7 +41,7 @@ def markowitz(data, q=1000):
     datosTickers['ponderacion_optima'] = mejor_port
     
     plt.figure(figsize=(9,7.5))
-    plt.title("Propuesta",fontsize = 20)
+    plt.title("Propuesta Inviu",fontsize = 20)
     plt.grid()
     plt.scatter(carteras.volatilidad, carteras.retorno, c=carteras.sharpe, s=1, cmap='rainbow')
     plt.colorbar(label='Sharpe Ratio', aspect=40)
@@ -158,35 +158,3 @@ def markowitzoptimoPandemia(data, q=10000,):
     return(datosTickers.round(3), optimo)
     return(datosTickers1.round(2), real)
 
-
-
-
-def markowitzrealMono(data, q=1):
-    retornos = np.log((data/data.shift(1)).dropna())
-    carteras, datosTickers = [] , []
-    
-    for i in range(q):
-        pond = np.array(WheighsMono)
-        r={}
-        r['retorno'] = np.sum( (retornos.mean() * pond * 252))
-        r['volatilidad'] = np.sqrt(np.dot(pond, np.dot(retornos.cov()*252, pond)))
-        r['sharpe'] = r['retorno'] / r['volatilidad'] 
-        r['pesos'] =  pond.round(2)
-        carteras.append(r)
-    
-    for ticker in data.columns:
-        d = {}
-        d['ticker'] = ticker
-        d['retorno'] = retornos[ticker].mean() * 252
-        d['volatilidad'] = retornos[ticker].std() * (252**0.5)
-        d['sharpe'] = d['retorno'] / d['volatilidad']
-        datosTickers.append(d)
-
-    datosTickers = pd.DataFrame(datosTickers).set_index('ticker')    
-    carteras = pd.DataFrame(carteras)
-
-    real = carteras.loc[carteras.sharpe.idxmax()]
-    real_port = carteras.iloc[carteras.sharpe.idxmax()]['pesos']
-    datosTickers['ponderacion_real'] = real_port
-    
-    return (datosTickers.round(2), real)
