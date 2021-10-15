@@ -6,13 +6,9 @@ Created on Fri Oct 15 05:40:35 2021
 @author: leoprimero
 """
 
-import yfinance as yf, numpy as np, pandas as pd, matplotlib.pyplot as plt, markowitz as mk
+import numpy as np, pandas as pd, matplotlib.pyplot as plt, markowitz as mk
 
-
-
-import yfinance as yf, numpy as np, pandas as pd, matplotlib.pyplot as plt, markowitz as mk
-
-path = '/home/leoprimero/Documentos/portafolio-inviu-main/Inviu-portfolioUSD/Data/'
+path = 'Your Path Here'
 GGAL = pd.read_csv(path + 'GGAL.csv')
 KO = pd.read_csv(path + 'KO.csv')
 LOMA = pd.read_csv(path + 'LOMA.csv')
