@@ -84,11 +84,7 @@ plt.title ("Rendimientos diarios acumulados por activos",fontsize = 30)
 plt.xlabel('Fecha')
 plt.ylabel('Precio')
 
-# MERVAL['close'].plot(figsize=(9,7.5))
-# plt.title ("Indice MERVAL",fontsize = 20)
-# plt.xlabel('Fecha')
-# plt.ylabel('Precio')
-
+# Acá hay que elegir un benchmark, puede ir BYMA o la inflación acumulada que indica la API del BCRA
 benchmark = BYMA["Adj Close"]
 bench = benchmark.pct_change().dropna()
 bench.rename("Benchmark SP500")
