@@ -11,13 +11,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pyfolio
 
-path = 'PATH'
+path = '/home/leoprimero/Documentos/portafolio-inviu-main/Inviu-portfolioUSD/Data/'
 GGAL = pd.read_csv(path + 'GGAL.csv')
 KO = pd.read_csv(path + 'KO.csv')
 LOMA = pd.read_csv(path + 'LOMA.csv')
 TX22 = pd.read_csv(path + 'TX22.csv')
 TX24 = pd.read_csv(path + 'TX24.csv')
 WMT = pd.read_csv(path + 'WMT.csv')
+VSC30 = pd.read_excel(path + 'VSC30.xlsx')
 
 GGAL.set_index('Date',inplace=True)
 KO.set_index('Date',inplace=True)
@@ -25,6 +26,7 @@ LOMA.set_index('Date',inplace=True)
 TX22.set_index('Date',inplace=True)
 TX24.set_index('Date',inplace=True)
 WMT.set_index('Date',inplace=True)
+VSC30.set_index('Date',inplace=True)
 
 
 
@@ -32,7 +34,7 @@ tickers = (GGAL,KO,LOMA,TX22,TX24,WMT)
 
 
 
-reco= [0.1,0.15,0.1,0.25,0.15,0.15]
+reco= [0.1,0.15,0.1,0.25,0.15,0.15,0.1]
 
 equi_weighs= [1/(len(tickers))for n in tickers]
 
@@ -49,7 +51,7 @@ for stock in (tickers):
     
 portafolio = pd.concat([x  ['Position'] for x in tickers],axis=1)
 
-portafolio.columns = ['GGAL','KO','LOMA','TX22','TX24','WMT']
+portafolio.columns = ['GGAL','KO','LOMA','TX22','TX24','WMT','VSC30']
 
 
 portafolio_total = portafolio.sum(axis=1)
@@ -63,6 +65,7 @@ plt.ylabel('Precio en ARS')
 
 portafolio_returns = portafolio_total.pct_change().dropna()
 portafolio_returns.plot (figsize=(9,7.5))
+plt.grid(alpha=0.3, color='SteelBlue', linewidth=1)
 plt.title ("Retornos diarios Portafolio Inviu",fontsize = 20)
 plt.xlabel('Fecha')
 plt.ylabel('Precio')
@@ -74,6 +77,7 @@ plt.ylabel('Precio')
 
 retornos= portafolio.pct_change().dropna()
 retornos.plot(figsize=(19,17))
+plt.grid(alpha=0.3, color='SteelBlue', linewidth=1)
 plt.title ("Rendimiento diario por activos",fontsize = 30)
 plt.xlabel('Fecha')
 plt.ylabel('Precio')
@@ -84,7 +88,11 @@ plt.title ("Rendimientos diarios acumulados por activos",fontsize = 30)
 plt.xlabel('Fecha')
 plt.ylabel('Precio')
 
-# Acá hay que elegir un benchmark, puede ir BYMA o la inflación acumulada que indica la API del BCRA
+# MERVAL['close'].plot(figsize=(9,7.5))
+# plt.title ("Indice MERVAL",fontsize = 20)
+# plt.xlabel('Fecha')
+# plt.ylabel('Precio')
+
 benchmark = BYMA["Adj Close"]
 bench = benchmark.pct_change().dropna()
 bench.rename("Benchmark SP500")
